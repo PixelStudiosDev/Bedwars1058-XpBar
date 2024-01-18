@@ -1,0 +1,6 @@
+name: BedWars1058-XpBar
+version: ${project.version}
+author: itz_leoo
+main: me.leoo.bedwars.xpbar.XpBar
+description: BedWars1058 Xp Bar Addon
+softdepend: [BedWars1058, BedWarsProxy]
