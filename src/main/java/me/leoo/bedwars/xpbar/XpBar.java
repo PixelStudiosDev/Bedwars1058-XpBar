@@ -1,16 +1,17 @@
 package me.leoo.bedwars.xpbar;
 
-import com.andrei1058.bedwars.api.BedWars;
+import com.andrei1058.bedwars.BedWars;
 import lombok.Getter;
 import me.leoo.bedwars.xpbar.configuration.MainConfig;
-import me.leoo.bedwars.xpbar.listeners.*;
+import me.leoo.bedwars.xpbar.listeners.JoinEvent;
+import me.leoo.bedwars.xpbar.listeners.LevelupXpgainEvent;
+import me.leoo.bedwars.xpbar.listeners.XpBarEvent;
 import me.leoo.bedwars.xpbar.utils.BedwarsMode;
 import me.leoo.utils.bukkit.Utils;
 import me.leoo.utils.bukkit.config.ConfigManager;
 import me.leoo.utils.bukkit.events.Events;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import static org.bukkit.Bukkit.getPluginManager;
 
 @Getter
 public class XpBar extends JavaPlugin {
@@ -19,7 +20,6 @@ public class XpBar extends JavaPlugin {
     private static XpBar plugin;
 
     private ConfigManager mainConfig;
-    private BedWars bedWars;
     private BedwarsMode bedwarsMode;
 
     @Override
@@ -29,7 +29,7 @@ public class XpBar extends JavaPlugin {
         Utils.initialize(this);
 
         for (BedwarsMode mode : BedwarsMode.values()) {
-            if (getPluginManager().isPluginEnabled(mode.getName())) {
+            if (Bukkit.getPluginManager().isPluginEnabled(mode.getName())) {
                 bedwarsMode = mode;
 
                 getLogger().info("Hooked into " + mode.getName());
@@ -39,12 +39,12 @@ public class XpBar extends JavaPlugin {
         if (bedwarsMode == null) {
             getLogger().info("Bedwars1058/BedwarsProxy not found. Disabling...");
 
-            getPluginManager().disablePlugin(this);
+            Bukkit.getPluginManager().disablePlugin(this);
 
             return;
         }
 
-        mainConfig = new MainConfig("config", "plugins/" + bedwarsMode.getName() + "/Addons/XpBar");
+        mainConfig = new MainConfig("config", bedwarsMode.getPath());
 
         registerEvents();
 
@@ -61,7 +61,7 @@ public class XpBar extends JavaPlugin {
     private void registerEvents() {
         Events.register(new JoinEvent());
 
-        if(bedwarsMode.equals(BedwarsMode.BEDWARS)) {
+        if (bedwarsMode.equals(BedwarsMode.BEDWARS)) {
             Events.register(new XpBarEvent(), new LevelupXpgainEvent());
         }
     }

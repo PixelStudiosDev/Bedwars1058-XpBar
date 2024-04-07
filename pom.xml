@@ -6,7 +6,7 @@
 
 	<groupId>me.leoo.bedwars</groupId>
 	<artifactId>Bedwars1058-XpBar</artifactId>
-    <version>1.3.0</version>
+    <version>1.3.1</version>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -19,8 +19,8 @@
 			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
 		</repository>
 		<repository>
-			<id>andrei1058-repo</id>
-			<url>https://repo.andrei1058.dev/releases/</url>
+			<id>bedwars1058-releases</id>
+			<url>https://repo.tomkeuper.com/repository/releases/</url>
 		</repository>
 		<repository>
 			<id>codemc-repo</id>
@@ -62,7 +62,7 @@
 		<dependency>
 			<groupId>me.leoo.utils</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>1.7.4</version>
+			<version>1.7.13</version>
 		</dependency>
 	</dependencies>
 
@@ -93,6 +93,16 @@
 					<minimizeJar>true</minimizeJar>
 					<createDependencyReducedPom>false</createDependencyReducedPom>
 					<shadedArtifactAttached>false</shadedArtifactAttached>
+					<relocations>
+						<relocation>
+							<pattern>de.tr7zw.changeme.nbtapi</pattern>
+							<shadedPattern>me.leoo.bedwars.xpbar.libs.nbtapi</shadedPattern>
+						</relocation>
+						<relocation>
+							<pattern>me.leoo.utils</pattern>
+							<shadedPattern>me.leoo.bedwars.xpbar.libs.utils</shadedPattern>ù
+						</relocation>
+					</relocations>
 				</configuration>
 				<executions>
 					<execution>

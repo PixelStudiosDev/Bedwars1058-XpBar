@@ -6,14 +6,12 @@ import com.cryptomorin.xseries.XSound;
 import lombok.experimental.UtilityClass;
 import me.leoo.bedwars.xpbar.XpBar;
 import me.leoo.bedwars.xpbar.configuration.Path;
+import me.leoo.utils.bukkit.bukkit.BukkitUtils;
 import me.leoo.utils.bukkit.config.ConfigManager;
 import me.leoo.utils.bukkit.task.Tasks;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
-import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.meta.FireworkMeta;
 
 import java.util.List;
 
@@ -48,7 +46,7 @@ public class XpBarUtil {
 
     private void updateLevel(Player player) {
         if (player != null) {
-            Tasks.runLater(() -> {
+            Tasks.later(() -> {
                 if (XpBar.get().getBedwarsMode().equals(BedwarsMode.PROXY)) {
                     player.setLevel(0);
                     player.setLevel(BedWarsProxy.getLevelManager().getPlayerLevel(player));
@@ -64,7 +62,7 @@ public class XpBarUtil {
 
     private void updateExp(Player player) {
         if (player != null) {
-            Tasks.runLater(() -> {
+            Tasks.later(() -> {
                 if (XpBar.get().getBedwarsMode().equals(BedwarsMode.PROXY)) {
                     if (BedWarsProxy.getLevelManager().getCurrentXp(player) > BedWarsProxy.getLevelManager().getRequiredXp(player)) {
                         player.setExp(0);
@@ -85,12 +83,7 @@ public class XpBarUtil {
     }
 
     public void sendFireworks(Player player) {
-        Firework firework = player.getWorld().spawn(player.getLocation(), Firework.class);
-
-        FireworkMeta meta = firework.getFireworkMeta();
-        meta.addEffect(FireworkEffect.builder().withColor(Color.RED).withColor(Color.WHITE).build());
-        meta.setPower(1);
-        firework.setFireworkMeta(meta);
+        BukkitUtils.sendFireworks(player.getLocation(), 1, Color.RED, Color.WHITE);
 
         player.getWorld().playSound(player.getLocation(), XSound.ENTITY_FIREWORK_ROCKET_BLAST.or(XSound.AMBIENT_CAVE).parseSound(), 5.0F, 0.5F);
     }

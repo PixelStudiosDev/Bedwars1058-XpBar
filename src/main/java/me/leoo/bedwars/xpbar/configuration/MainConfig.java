@@ -1,7 +1,7 @@
 package me.leoo.bedwars.xpbar.configuration;
 
-import me.leoo.bedwars.xpbar.XpBar;
 import me.leoo.bedwars.xpbar.utils.EventType;
+import me.leoo.bedwars.xpbar.XpBar;
 import me.leoo.utils.bukkit.config.ConfigManager;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -29,15 +29,15 @@ public class MainConfig extends ConfigManager {
         }
 
         //worlds
-        yml.addDefault(Path.LEVEL_WORLDS, List.of("all"));
-        yml.addDefault(Path.FIREWORKS_ON_LEVELUP, true);
+        add(Path.LEVEL_WORLDS, List.of("all"));
+        add(Path.FIREWORKS_ON_LEVELUP, true);
 
-        yml.addDefault(Path.XP_WORLDS, List.of("all"));
+        add(Path.XP_WORLDS, List.of("all"));
 
         //events
         for (EventType value : EventType.values()) {
-            yml.addDefault(value.getLevelPath(), value != EventType.MOVE);
-            yml.addDefault(value.getExperiencePath(), value != EventType.MOVE);
+            add(value.getLevelPath(), value != EventType.MOVE);
+            add(value.getExperiencePath(), value != EventType.MOVE);
         }
 
         yml.options().copyDefaults(true);
